@@ -72,6 +72,10 @@ typedef void(^Password)(BOOL success, NSString *password, NSString *userPassword
 /** 密码最小长度(默认3) */
 @property(assign, nonatomic) NSUInteger          passwordLength;
 
+/** 连续输入密码的次数 */
+@property(assign, nonatomic) NSInteger           inputCount;
+
+
 /** 画线完成后的截图 */
 @property(strong, nonatomic) UIImage            *passwordImage;
 

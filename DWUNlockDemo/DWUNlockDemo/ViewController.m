@@ -361,6 +361,8 @@
         
         DLog(@"%ld", password.length);
         
+        DLog(@"连续输入%ld次密码", gestures.inputCount);
+        
         if (fing) {
             
             if (success) {

@@ -99,6 +99,9 @@
 #pragma mark ---view停止滑动
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     
+    //连续输入密码的次数
+    self.inputCount = self.inputCount + 1;
+    
     UIButton *lastObject = [self.lines lastObject];
     
     //把"当前手指的位置"变成需要连线的数组中的最后的一个按钮的center
