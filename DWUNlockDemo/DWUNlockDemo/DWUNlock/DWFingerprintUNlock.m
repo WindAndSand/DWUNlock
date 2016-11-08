@@ -22,11 +22,13 @@
         
     }
     
-    if (cancelMsg.length != 0) {
-
-        context.localizedCancelTitle = cancelMsg;
     
+    if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 10 ) {
+        
+        context.localizedCancelTitle = cancelMsg;
+        
     }
+
     
     //错误对象
     NSError *erro = nil;
@@ -36,6 +38,7 @@
     if ([[[UIDevice currentDevice] systemVersion] integerValue] < 9 ) {
         
         APolicy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
+        
         
     }else {
         
