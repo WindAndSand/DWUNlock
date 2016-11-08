@@ -174,7 +174,7 @@
         
         if (!sender.on) {
             
-            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" otherClick:^(NSString *otherClick) {
+            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
                 
                 DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
                 
@@ -220,7 +220,7 @@
                         
                     }else {
                         
-                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" otherClick:^(NSString *otherClick) {
+                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
                             
                             DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
                             
@@ -266,7 +266,7 @@
         
         if (buttonIndex == 1) {
             
-            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" otherClick:^(NSString *otherClick) {
+            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
                 
                 DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
                 
@@ -381,7 +381,7 @@
                         
                     }else {
                         
-                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" otherClick:^(NSString *otherClick) {
+                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
                             
                             DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
                             

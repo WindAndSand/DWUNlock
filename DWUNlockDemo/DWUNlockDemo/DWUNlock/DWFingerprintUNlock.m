@@ -11,7 +11,7 @@
 @implementation DWFingerprintUNlock
 
 #pragma mark ---指纹解锁
-+ (void)dw_initWithFingerprintUNlockPromptMsg:(NSString *)promptMsg cancelMsg:(NSString *)cancelMsg otherMsg:(NSString *)otherMsg otherClick:(void(^)(NSString *otherClick))otherClick success:(void(^)(BOOL success))success error:(void(^)(NSError *error))error errorMsg:(void(^)(NSString *errorMsg))errorMsg {
++ (void)dw_initWithFingerprintUNlockPromptMsg:(NSString *)promptMsg cancelMsg:(NSString *)cancelMsg otherMsg:(NSString *)otherMsg enabled:(BOOL)enabled otherClick:(void(^)(NSString *otherClick))otherClick  success:(void(^)(BOOL success))success error:(void(^)(NSError *error))error errorMsg:(void(^)(NSString *errorMsg))errorMsg {
     
     //初始化上下文对象
     LAContext* context = [[LAContext alloc] init];
@@ -31,23 +31,37 @@
     //错误对象
     NSError *erro = nil;
     
-    NSInteger LAPolicy;
+    NSInteger APolicy;
     
     if ([[[UIDevice currentDevice] systemVersion] integerValue] < 9 ) {
         
-        LAPolicy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
+        APolicy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
         
     }else {
         
-        LAPolicy = LAPolicyDeviceOwnerAuthentication;
+        APolicy = LAPolicyDeviceOwnerAuthentication;
+        
+    }
+    
+    
+    NSInteger Policy;
+    if (enabled) {
+        
+        Policy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
+        
+    }else {
+        
+        Policy = LAPolicyDeviceOwnerAuthentication;
         
     }
     
     //首先使用canEvaluatePolicy 判断设备支持状态
-    if ([context canEvaluatePolicy:LAPolicy error:&erro]) {
+    if ([context canEvaluatePolicy:APolicy error:&erro]) {
+        
+        
         
         //支持指纹验证
-        [context evaluatePolicy:LAPolicy localizedReason:promptMsg reply:^(BOOL succe, NSError *err) {
+        [context evaluatePolicy:Policy localizedReason:promptMsg reply:^(BOOL succe, NSError *err) {
             
             if (succe) {
                 
@@ -122,9 +136,16 @@
                     }
                         break;
                     default:
+                        
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             
                             otherClick(@"(主线程)未知情况");
+                            
+                            if (enabled) {
+                                
+                             [context evaluatePolicy:APolicy localizedReason:promptMsg reply:^(BOOL success, NSError * _Nullable error) {}];
+                                
+                            }
                             
                         });
                         break;
@@ -133,7 +154,7 @@
         }];
         
     }else {
-        
+            
         errorMsg([NSString stringWithFormat:@"此设备不支持Touch ID--->设备操作系统:%@---设备系统版本号:%@---设备型号:%@", [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] systemName], [DWiPhoneType dw_iPhoneType]]);
         
     }
