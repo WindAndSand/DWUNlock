@@ -8,7 +8,7 @@
 ###Tip:*将手势与指纹解锁进行了一层封装，致力于打造出最简便的使用方式*
 ---
 
-![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/DWUNlockDemo/DWUNlockDemo/DWUNlock/Resources/手势%26指纹.gif)
+![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/DWUNlockDemo/手势%26指纹.gif)
 
 ##准备工作
 ####将
