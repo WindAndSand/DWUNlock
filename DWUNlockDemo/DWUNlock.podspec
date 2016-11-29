@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/dwanghello/DWUNlock.git", :tag => s.version.to_s }
   s.source_files = "DWUNlock", "DWUNlockDemo/DWUNlock/**/*.{h,m}"
   s.frameworks   = "UIKit", "Foundation","LocalAuthentication"
-  s.resources    = "DWUNlock/Resources.bundle"
+  s.resources    = "DWUNlockDemo/DWUNlock/Resources.bundle"
 end
