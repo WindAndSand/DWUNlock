@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		359E4EB11DED7298006471FD /* Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 359E4EB01DED7298006471FD /* Resources.bundle */; };
+		359E4EB41DED7666006471FD /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB31DED7666006471FD /* LocalAuthentication.framework */; };
+		359E4EB61DED766A006471FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB51DED766A006471FD /* UIKit.framework */; };
+		359E4EB81DED766F006471FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB71DED766F006471FD /* Foundation.framework */; };
 		8F155E2B1DCA355B007ED527 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2A1DCA355B007ED527 /* main.m */; };
 		8F155E2E1DCA355B007ED527 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2D1DCA355B007ED527 /* AppDelegate.m */; };
 		8F155E311DCA355B007ED527 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E301DCA355B007ED527 /* ViewController.m */; };
@@ -32,6 +35,9 @@
 
 /* Begin PBXFileReference section */
 		359E4EB01DED7298006471FD /* Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resources.bundle; sourceTree = "<group>"; };
+		359E4EB31DED7666006471FD /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		359E4EB51DED766A006471FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		359E4EB71DED766F006471FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F155E261DCA355B007ED527 /* DWUNlockDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DWUNlockDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F155E2A1DCA355B007ED527 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F155E2C1DCA355B007ED527 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,17 +88,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				359E4EB81DED766F006471FD /* Foundation.framework in Frameworks */,
+				359E4EB61DED766A006471FD /* UIKit.framework in Frameworks */,
+				359E4EB41DED7666006471FD /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		359E4EB21DED7665006471FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				359E4EB71DED766F006471FD /* Foundation.framework */,
+				359E4EB51DED766A006471FD /* UIKit.framework */,
+				359E4EB31DED7666006471FD /* LocalAuthentication.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8F155E1D1DCA355B007ED527 = {
 			isa = PBXGroup;
 			children = (
 				8F155E281DCA355B007ED527 /* DWUNlockDemo */,
 				8F155E271DCA355B007ED527 /* Products */,
+				359E4EB21DED7665006471FD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,7 +229,7 @@
 				TargetAttributes = {
 					8F155E251DCA355B007ED527 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = QD5U363353;
+						DevelopmentTeam = A29G325F62;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -379,7 +399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = QD5U363353;
+				DEVELOPMENT_TEAM = A29G325F62;
 				INFOPLIST_FILE = DWUNlockDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -392,7 +412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = QD5U363353;
+				DEVELOPMENT_TEAM = A29G325F62;
 				INFOPLIST_FILE = DWUNlockDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
