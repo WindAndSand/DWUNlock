@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author             = { "dwanghello" => "dwang.hello@outlook.com" }
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/dwanghello/DWUNlock", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/dwanghello/DWUNlock.git", :tag => s.version.to_s }
   s.source_files = "DWUNlock", "DWUNlockDemo/DWUNlock/**/*.{h,m}"
   s.frameworks   = "UIKit", "Foundation","LocalAuthentication"
   s.resources    = "DWUNlockDemo/DWUNlock/Resources.bundle"
