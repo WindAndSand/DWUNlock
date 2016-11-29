@@ -75,7 +75,6 @@ typedef void(^Password)(BOOL success, NSString *password, NSString *userPassword
 /** 连续输入密码的次数 */
 @property(assign, nonatomic) NSInteger           inputCount;
 
-
 /** 画线完成后的截图 */
 @property(strong, nonatomic) UIImage            *passwordImage;
 
