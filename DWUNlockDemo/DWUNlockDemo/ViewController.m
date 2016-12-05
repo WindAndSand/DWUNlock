@@ -262,6 +262,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+  
     if (alertView.tag == 10) {
         
         if (buttonIndex == 1) {
@@ -382,7 +383,7 @@
                     }else {
                         
                         [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
-                            
+                             [self sender:20 ison:NO];
                             DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
                             
                         } success:^(BOOL success) {
@@ -393,13 +394,17 @@
                             
                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fing"];
                             
+#warning 修复先开手势解锁,然后开指纹解锁,之后关了指纹解锁,再开手势解锁,无需验证直接打开的问题
+                            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ges"];
+                            
                             
                         } error:^(NSError *error) {
-                            
+                             [self sender:20 ison:NO];
                             DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
                             
                         } errorMsg:^(NSString *errorMsg) {
                             
+                             [self sender:20 ison:NO];
                             DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);
                             
                         }];
