@@ -350,7 +350,7 @@
     
     gestures.lineColor = [UIColor orangeColor];
     
-    gestures.bgImage = [UIImage imageNamed:@"bg"];
+//    gestures.bgImage = [UIImage imageNamed:@"bg"];
     
     gestures.lineTimer = 0.85;
     

@@ -178,7 +178,7 @@
                 
             }else {
             
-                [btn setBackgroundImage:[UIImage imageNamed:@"gesture_node_success"]  forState:UIControlStateSelected];
+                [btn setBackgroundImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_success"]]  forState:UIControlStateSelected];
             
             }
             
@@ -191,7 +191,7 @@
                 
             }else {
             
-                [btn setBackgroundImage:[UIImage imageNamed:@"gesture_node_error"] forState:UIControlStateSelected];
+                [btn setBackgroundImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_error"]] forState:UIControlStateSelected];
             
             }
             
@@ -321,7 +321,7 @@
             
         }else {
             
-            self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+            self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/bg"]]];
             
         }
     
@@ -391,7 +391,7 @@
                 
             }else {
             
-                [point setBackgroundImage:[UIImage imageNamed:@"gesture_node_normal"] forState:UIControlStateNormal];
+                [point setBackgroundImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_normal"]] forState:UIControlStateNormal];
             
             }
             
@@ -402,7 +402,7 @@
                 
             }else {
             
-                [point setBackgroundImage:[UIImage imageNamed:@"gesture_node_highlighted"] forState:UIControlStateHighlighted];
+                [point setBackgroundImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_highlighted"]] forState:UIControlStateHighlighted];
             
             }
                 
