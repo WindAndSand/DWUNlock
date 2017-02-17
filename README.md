@@ -11,6 +11,8 @@
 
 ![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/手势%26指纹.gif)
 
+#Cocoapods:
+        pod 'DWUNlock'
 ##准备工作
 ####将
     DWUNlock文件夹
