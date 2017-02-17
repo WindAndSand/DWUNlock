@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
   s.name         = "DWUNlock"
-  s.version      = "0.0.1"
-  s.summary      = "简单使用手势与指纹解锁."
+  s.version      = "0.0.2"
+  s.summary      = "iOS端手势与指纹解锁."
   s.description  = <<-DESC
   - 一款用于iOS开发中的手势与指纹解锁的库
                    DESC
@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/dwanghello/DWUNlock.git", :tag => "#{s.version}" }
   s.source_files  = "DWUNlock", "DWUNlock/**/*.{h,m}"
   s.resources = "DWUNlock/Resources.bundle/*.png"
-  s.frameworks = "Foundation", "UIKit", "LocalAuthentication"
+  s.frameworks = "Foundation", "UIKit", "LocalAuthentication", "QuartzCore"
   s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
 end
