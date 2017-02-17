@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
 
   s.name         = "DWUNlock"
   s.version      = "0.0.1"
-  s.summary      = "Gestures and fingerprint unlocked."
+  s.summary      = "简单使用手势与指纹解锁."
   s.description  = <<-DESC
-  - An unlock gestures and fingerprint for iOS development
+  - 一款用于iOS开发中的手势与指纹解锁的库
                    DESC
 
   s.homepage     = "https://github.com/dwanghello/DWUNlock"
