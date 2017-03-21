@@ -6,20 +6,20 @@
 # 微信:ai739814184
 # QQ群:577506623
 # e-mail:dwang.hello@outlook.com
-###Tip:*将手势与指纹解锁进行了一层封装，致力于打造出最简便的使用方式*
+### Tip:*将手势与指纹解锁进行了一层封装，致力于打造出最简便的使用方式*
 ---
 
 ![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/手势%26指纹.gif)
 
-#Cocoapods:
+# Cocoapods:
         pod 'DWUNlock'
-##准备工作
-####将
+## 准备工作
+#### 将
     DWUNlock文件夹
     拖到项目中
 
 ---
-####导入    
+#### 导入    
     LocalAuthentication.framework
 
     UIKit.framework
@@ -27,11 +27,11 @@
     QuartzCore.framework
 
 ---
-##开始使用
-####在需要用到指纹解锁的地方引入头文件
+## 开始使用
+#### 在需要用到指纹解锁的地方引入头文件
     #import "DWFingerprintUNlock.h"
     
-####直接使用类方调用/详细参数说明请到DWFingerprintUNlock.h文件中查看
+#### 直接使用类方调用/详细参数说明请到DWFingerprintUNlock.h文件中查看
     [DWFingerprintUNlock
      dw_initWithFingerprintUNlockPromptMsg:
      @"此操作需要认证您的身份"
@@ -57,10 +57,10 @@
             }];
             
 
-####在需要用到手势解锁的地方引入头文件
+#### 在需要用到手势解锁的地方引入头文件
     #import "DWGesturesLock.h"
     
-####此处需使用对象方法/详细参数说明请到DWGesturesLock.h文件中查看
+#### 此处需使用对象方法/详细参数说明请到DWGesturesLock.h文件中查看
     //初始化
     DWGesturesLock *gestures = [[DWGesturesLock 
     alloc] init];
