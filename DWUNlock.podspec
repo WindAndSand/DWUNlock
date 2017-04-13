@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = "DWUNlock"
-  s.version       = "1.0.0"
+  s.version       = "1.0.1"
   s.summary       = "iOS端手势与指纹解锁."
   s.description   = <<-DESC
   - 一款用于iOS开发的手势与指纹解锁
