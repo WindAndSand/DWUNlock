@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.platform      = :ios, "8.0"
   s.source        = { :git => "https://github.com/dwanghello/DWUNlock.git", :tag => s.version.to_s }
   s.source_files  = "DWUNlock", "DWUNlock/**/*.{h,m}"
-  s.resources     = "DWUNlock/Resources.bundle/*.png"
+  s.resources     = "DWUNlock/Resources.bundle"
   s.frameworks    = "Foundation", "UIKit", "LocalAuthentication", "QuartzCore"
 end
