@@ -1,4 +1,5 @@
-[![CocoaPods](http://img.shields.io/cocoapods/v/DWUNlock.svg?style=flat)](http://cocoapods.org/?q=DWUNlock)
+[![CocoaPods](http://img.shields.io/cocoapods/v/DWUNlock.svg?style=flat)](http://cocoapods.org/?q=DWUNlock)&nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/p/DWUNlock.svg?style=flat)](http://cocoapods.org/?q=DWUNlock)&nbsp;
 # Tip
 - version 1.0.1
 
