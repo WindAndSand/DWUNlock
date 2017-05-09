@@ -1,5 +1,7 @@
 [![CocoaPods](http://img.shields.io/cocoapods/v/DWUNlock.svg?style=flat)](http://cocoapods.org/?q=DWUNlock)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/p/DWUNlock.svg?style=flat)](http://cocoapods.org/?q=DWUNlock)&nbsp;
+[![License](https://img.shields.io/cocoapods/l/DWUNlock.svg?style=flat)](http://cocoapods.org/pods/DWUNlock) 
+[![GitHub stars](https://img.shields.io/github/stars/dwanghello/DWUNlock.svg)](https://github.com/asiosldh/DWUNlock/stargazers)
 # Tip
 - version 1.0.1
 
