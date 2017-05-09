@@ -7,13 +7,13 @@
 
 # 此项目使用Xcode8.1创建，低版本Xcode打开可能会无法使用
 # 手势&amp;指纹解锁
-# 如果感觉不错，请给个Star支持一下
-# 使用中如果遇到什么问题可以联系我
-# QQ:739814184 
-# 微信:ai739814184
-# QQ群:577506623
-# e-mail:dwang.hello@outlook.com
-### Tip:*将手势与指纹解锁进行了一层封装，致力于打造出最简便的使用方式*
+### *如果感觉不错，请给个Star支持一下*
+#### *使用中如果遇到什么问题可以联系我*
+##### *[QQ:739814184|点击即可扫码添加](https://github.com/dwanghello/DWTransform/blob/master/QQ.png)* 
+##### *[微信:ai739814184|点击即可扫码添加](https://github.com/dwanghello/DWTransform/blob/master/WeChat.png)*
+##### *QQ群:577506623*
+![QQ群](https://github.com/dwanghello/DWTransform/blob/master/QQ群.png)
+##### *e-mail:dwang.hello@outlook.com*
 ---
 
 ![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/手势%26指纹.gif)
