@@ -9,7 +9,7 @@
 - version 
     - 1.0.2
 - Cocopods
-    - *'pod DWUNlock', '~> 1.0.2'*
+    - *pod 'DWUNlock', '~> 1.0.2'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
