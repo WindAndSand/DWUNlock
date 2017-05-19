@@ -6,7 +6,7 @@
 ---
 ![logo](https://github.com/dwanghello/DWUNlock/blob/master/logo.png)
 # Tip
-- version 1.0.1
+- version 1.0.2
 
 # 此项目使用Xcode8.1创建，低版本Xcode打开可能会无法使用
 # 手势&amp;指纹解锁
