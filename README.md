@@ -5,8 +5,9 @@
 
 ---
 ![logo](https://github.com/dwanghello/DWUNlock/blob/master/logo.png)
-# Tip
+
 - version 1.0.2
+- Cocoapods *pod 'DWUNlock', '~> 1.0.2'*
 
 # 此项目使用Xcode8.1创建，低版本Xcode打开可能会无法使用
 # 手势&amp;指纹解锁
@@ -17,12 +18,8 @@
 ##### *QQ群:577506623*
 ![QQ群](https://github.com/dwanghello/DWTransform/blob/master/QQ群.png)
 ##### *e-mail:dwang.hello@outlook.com*
+
 ---
-
-![手势&指纹](https://github.com/dwanghello/DWUNlock/blob/master/手势%26指纹.gif)
-
-# Cocoapods:
-        pod 'DWUNlock'
 ## 准备工作
 #### 将
     DWUNlock文件夹
