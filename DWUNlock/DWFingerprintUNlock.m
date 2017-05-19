@@ -16,20 +16,13 @@
     //初始化上下文对象
     LAContext* context = [[LAContext alloc] init];
     
-    if (otherMsg.length != 0) {
-        
-        context.localizedFallbackTitle = otherMsg;
-        
-    }
-    
+    context.localizedFallbackTitle = otherMsg;
     
     if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 10 ) {
         
         context.localizedCancelTitle = cancelMsg;
         
     }
-
-    
     //错误对象
     NSError *erro = nil;
     
