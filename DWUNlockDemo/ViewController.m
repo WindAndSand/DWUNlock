@@ -15,473 +15,88 @@
 
 #import "ViewController.h"
 #import "DWUNlock.h"
-#import "Masonry.h"
 
-@interface ViewController ()<UITableViewDataSource, UIAlertViewDelegate, UITableViewDelegate>
+@interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 
-/** 手势解锁 */
-@property(strong, nonatomic) DWGesturesLock *gesture;
-
-/** Array */
-@property(strong, nonatomic) NSMutableArray *array;
-
-/** tableView */
-@property (weak, nonatomic) UITableView *tableView;
+@property(nonatomic, strong) UISwitch *switchType;
 
 @end
-
-#ifndef __OPTIMIZE__
-#define DLog(...) printf("%f %s\n",[[NSDate date]timeIntervalSince1970],[[NSString stringWithFormat:__VA_ARGS__]UTF8String]);
-#endif
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-    
-    tableView.scrollEnabled = NO;
-    
-    tableView.delegate = self;
-    
-    self.tableView = tableView;
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.title = @"手势&指纹解锁";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.switchType];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 88) style:UITableViewStylePlain];
     tableView.tableFooterView = [[UIView alloc] init];
-    
     tableView.dataSource = self;
-    
+    tableView.delegate = self;
     [self.view addSubview:tableView];
-    
+}
+
+#pragma mark - 指纹解锁
+- (void)fingerprintUNlock {
+    [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelMsg:@"点此取消" otherMsg:self.switchType.isOn?@"":@"其它方式" enabled:YES otherClick:^(NSString *otherClick) {
+        NSLog(@"%@", otherClick);
+    } success:^(BOOL success) {
+        if (success) {
+            NSLog(@"验证成功");
+        }
+    } error:^(NSError *error) {
+        NSLog(@"%@", error);
+    } errorMsg:^(NSString *errorMsg) {
+        NSLog(@"%@", errorMsg);
+    }];
+}
+
+#pragma mark - 手势解锁
+- (void)gesturesLock {
+    DWGesturesLock *ges = [[DWGesturesLock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
+    [ges dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
+        NSLog(@"是否正确:%d---此次输入的密码:%@---用户设置的密码:%@", success, password, userPassword);
+        if (success) {
+            [ges removeFromSuperview];
+        }
+    }];
+    NSLog(@"连续输入了%ld次", ges.inputCount);
+    [self.view addSubview:ges];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return 2;
-    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-    
-    cell.selectionStyle = UIControlStateNormal;
-    
-    UISwitch *switchs = [[UISwitch alloc] init];
-    
-    [self.array addObject:switchs];
-    
-    switchs.tag = (indexPath.row + 1) * 10;
-    
-    [switchs addTarget:self action:@selector(switchClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell addSubview:switchs];
-    
-    [switchs mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.centerY.equalTo(cell.mas_centerY);
-        
-        make.right.equalTo(cell.mas_right).offset(-15);
-        
-    }];
-    
-    if (indexPath.row == 0) {
-        
-        cell.textLabel.text = @"手势解锁";
-        
-        switchs.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"ges"];
-        
+    static NSString *ID = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = indexPath.row==1?@"手势解锁":@"指纹解锁";
     }
-    
-    if (indexPath.row == 1) {
-        
-        cell.textLabel.text = @"指纹解锁";
-        
-        switchs.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"fing"];
-        
-    }
-    
     return cell;
-    
 }
 
-- (void)switchClick:(UISwitch *)sender {
-    
-    if (sender.tag == 10) {
-        
-        if (!sender.on) {
-            
-            [self.gesture removeFromSuperview];
-            
-            DLog(@"取消手势解锁")
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ges"]) {
-                
-                [self loadGesture:YES fing:NO];
-                
-            }
-            
-        }else {
-            
-            for (UISwitch *switchs in self.array) {
-                
-                if (switchs.tag != sender.tag) {
-                    
-                    if (switchs.on == YES) {
-                        
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您已开启指纹解锁,继续开启手势解锁将会关闭指纹解锁" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"继续开启", nil];
-                        
-                        alert.tag = sender.tag;
-                        
-                        [alert show];
-                        
-                    }else {
-                        
-                        DLog(@"开启了手势解锁");
-                        
-                        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ges"]) {
-                            
-                            [self.gesture removeFromSuperview];
-                            
-                        }else {
-                            
-                            [self loadGesture:NO fing:NO];
-                            
-                        }
-                    }
-                }
-            }
-            
-        }
-        
-    }else if (sender.tag == 20) {
-        
-        [self.gesture removeFromSuperview];
-        
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ges"]) {
-            
-            for (UISwitch *switchs in self.array) {
-                
-                if (switchs.tag == 10) {
-                    
-                    switchs.on = NO;
-                    
-                }
-                
-            }
-            
-        }
-        
-        if (!sender.on) {
-            
-            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
-                
-                DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
-                
-                [self sender:sender.tag ison:YES];
-                
-            } success:^(BOOL success) {
-                
-                [self sender:sender.tag ison:NO];
-                
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"fing"];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                
-                DLog(@"取消指纹解锁")
-                DLog(@"认证成功---success:%d---线程:%@",success, [NSThread currentThread]);
-                
-            } error:^(NSError *error) {
-                
-                [self sender:sender.tag ison:YES];
-                DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
-                
-            } errorMsg:^(NSString *errorMsg) {
-                
-                [self sender:sender.tag ison:YES];
-                
-                DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);
-                
-            }];
-            
-        }else {
-            
-            for (UISwitch *switchs in self.array) {
-                
-                if (switchs.tag != sender.tag) {
-                    
-                    if (switchs.on == YES) {
-                        
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您已开启手势解锁,继续开启指纹解锁将会关闭手势解锁" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"继续开启", nil];
-                        
-                        alert.tag = sender.tag;
-                        
-                        [alert show];
-                        
-                    }else {
-                        
-                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
-                            
-                            DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
-                            
-                            [self sender:sender.tag ison:NO];
-                            
-                        } success:^(BOOL success) {
-                            
-                            [self sender:sender.tag ison:YES];
-                            
-                            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fing"];
-                            
-                            [self.navigationController popToRootViewControllerAnimated:YES];
-                            
-                            DLog(@"开启了指纹解锁");
-                            DLog(@"认证成功---success:%d---线程:%@",success, [NSThread currentThread]);
-                            
-                        } error:^(NSError *error) {
-                            
-                            [self sender:sender.tag ison:NO];
-                            DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
-                            
-                        } errorMsg:^(NSString *errorMsg) {
-                            
-                            [self sender:sender.tag ison:NO];
-                            DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);
-                            
-                        }];
-                        
-                    }
-                }
-            }
-            
-        }
-        
-        
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        [self fingerprintUNlock];
+    }else {
+        [self gesturesLock];
     }
-    
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-  
-    if (alertView.tag == 10) {
-        
-        if (buttonIndex == 1) {
-            
-            [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
-                
-                DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
-                
-                [self sender:alertView.tag ison:NO];
-                
-            } success:^(BOOL success) {
-                
-                for (UISwitch *switchs in self.array) {
-                    
-                    if (switchs.tag == alertView.tag) {
-                        
-                        [self loadGesture:NO fing:NO];
-                        
-                    }else {
-                        
-                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"fing"];
-                        
-                        switchs.on = NO;
-                        
-                    }
-                    
-                }
-                
-                DLog(@"认证成功---success:%d---线程:%@",success, [NSThread currentThread]);
-                
-            } error:^(NSError *error) {
-                
-                [self sender:alertView.tag ison:NO];
-                DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
-                
-            } errorMsg:^(NSString *errorMsg) {
-                
-                [self sender:alertView.tag ison:NO];
-                DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);
-                
-            }];
-            
-        }else {
-            
-            [self sender:alertView.tag ison:NO];
-            
-        }
-        
+- (UISwitch *)switchType {
+    if (!_switchType) {
+        _switchType = [[UISwitch alloc] init];
     }
-    
-    if(alertView.tag == 20) {
-        
-        if (buttonIndex == 1) {
-            
-            
-            [self loadGesture:NO fing:YES];
-            
-            
-        }else {
-            
-            [self sender:alertView.tag ison:NO];
-            
-        }
-        
-    }
-    
+    return _switchType;
 }
 
-- (DWGesturesLock *)gesture {
-    
-    if (!_gesture) {
-        
-        _gesture = [[DWGesturesLock alloc] init];
-        
-    }
-    
-    return _gesture;
-}
-
-- (void)loadGesture:(BOOL)remove fing:(BOOL)fing {
-    
-    DWGesturesLock *gestures = [[DWGesturesLock alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height / 3, self.view.frame.size.width, self.view.frame.size.height / 3 * 2)];
-    
-    self.gesture = gestures;
-    
-    gestures.lineColor = [UIColor orangeColor];
-    
-//    gestures.bgImage = [UIImage imageNamed:@"bg"];
-    
-    gestures.lineTimer = 0.85;
-    
-    [self.view addSubview:gestures];
-    
-    [gestures dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
-        
-        DLog(@"%d--%@--%@", success, password, userPassword);
-        
-        DLog(@"%ld", password.length);
-        
-        DLog(@"连续输入%ld次密码", gestures.inputCount);
-        
-        if (fing) {
-            
-            if (success) {
-                
-                DLog(@"验证成功")
-                
-                [DWGesturesLock dw_removePassword];
-                
-                [self.gesture removeFromSuperview];
-                
-                for (UISwitch *switchs in self.array) {
-                    
-                    if (switchs.tag == 10) {
-                        
-                        switchs.on = NO;
-                        
-                    }else {
-                        
-                        [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:@"此操作需要认证您的身份" cancelMsg:@"取消" otherMsg:@"其它方式登录" enabled:YES otherClick:^(NSString *otherClick) {
-                             [self sender:20 ison:NO];
-                            DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
-                            
-                        } success:^(BOOL success) {
-                            
-                            switchs.on = YES;
-                            
-                            DLog(@"认证成功---success:%d---线程:%@",success, [NSThread currentThread]);
-                            
-                            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"fing"];
-                            
-#warning 修复先开手势解锁,然后开指纹解锁,之后关了指纹解锁,再开手势解锁,无需验证直接打开的问题
-                            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ges"];
-                            
-                            
-                        } error:^(NSError *error) {
-                             [self sender:20 ison:NO];
-                            DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
-                            
-                        } errorMsg:^(NSString *errorMsg) {
-                            
-                             [self sender:20 ison:NO];
-                            DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);
-                            
-                        }];
-                        
-                    }
-                }
-                
-            }else {
-                
-                DLog(@"验证失败");
-            }
-            
-        }
-        
-        if (remove) {
-            
-            if (success) {
-                
-                [DWGesturesLock dw_removePassword];
-                
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"ges"];
-                
-                [self.gesture removeFromSuperview];
-                
-                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
-                
-            }
-            
-        }
-        
-        if (!remove && !fing) {
-            
-            DLog(@"%@", userPassword);
-            
-            if (password.length >= 3) {
-                
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ges"];
-                
-                [self.gesture removeFromSuperview];
-                
-#warning 可设置截图
-                //                UIImageView *image = [[UIImageView alloc] initWithImage:gestures.passwordImage];
-                //
-                //                image.frame = CGRectMake(0, self.view.frame.size.height / 3, self.view.frame.size.width, self.view.frame.size.height / 3 * 2);
-                //
-                //                [self.view addSubview:image];
-                
-                
-            }
-        }
-        
-    }];
-    
-}
-
-
-- (NSMutableArray *)array {
-    
-    if (!_array) {
-        
-        _array = [NSMutableArray array];
-        
-    }
-    
-    return _array;
-}
-
-- (void)sender:(NSInteger)tag ison:(BOOL)ison {
-    
-    for (UISwitch *switchs in self.array) {
-        
-        if (switchs.tag == tag) {
-            
-            switchs.on = ison;
-            
-        }
-    }
-    
-}
 @end
