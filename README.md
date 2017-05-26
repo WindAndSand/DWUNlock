@@ -6,10 +6,10 @@
 ---
 ![logo](https://github.com/dwanghello/DWUNlock/blob/master/logo.png)
 
-- version 
-    - 1.0.2
+- version
+    - 1.0.3 *otherMsg传入nil，则只显示取消按钮，不会出现其他操作按钮*
 - Cocopods
-    - *pod 'DWUNlock', '~> 1.0.2'*
+    - *pod 'DWUNlock', '~> 1.0.3'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
