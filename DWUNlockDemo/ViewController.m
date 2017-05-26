@@ -38,16 +38,12 @@
 
 #pragma mark - 指纹解锁
 - (void)fingerprintUNlock {
-    [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelMsg:@"点此取消" otherMsg:self.switchType.isOn?nil:@"其它方式" enabled:YES otherClick:^(NSString *otherClick) {
+    [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelMsg:@"点此取消" otherMsg:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn otherClick:^(NSString *otherClick) {
         NSLog(@"%@", otherClick);
     } success:^(BOOL success) {
-        if (success) {
-            NSLog(@"验证成功");
-        }
-    } error:^(NSError *error) {
-        NSLog(@"%@", error);
-    } errorMsg:^(NSString *errorMsg) {
-        NSLog(@"%@", errorMsg);
+        NSLog(@"%d", success);
+    } error:^(NSError *error, NSString *errorMsg) {
+        NSLog(@"%@---%@", error, errorMsg);
     }];
 }
 
