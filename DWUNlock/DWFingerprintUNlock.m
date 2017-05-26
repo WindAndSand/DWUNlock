@@ -12,10 +12,13 @@
 
 #pragma mark ---指纹解锁
 + (void)dw_initWithFingerprintUNlockPromptMsg:(NSString *)promptMsg cancelMsg:(NSString *)cancelMsg otherMsg:(NSString *)otherMsg enabled:(BOOL)enabled otherClick:(void(^)(NSString *otherClick))otherClick  success:(void(^)(BOOL success))success error:(void(^)(NSError *error))error errorMsg:(void(^)(NSString *errorMsg))errorMsg {
-    NSLog(@"%@", otherMsg);
     //初始化上下文对象
     LAContext* context = [[LAContext alloc] init];
+    if (!otherMsg) {
+        context.localizedFallbackTitle = @"";
+    }else {
         context.localizedFallbackTitle = otherMsg;
+    }
     if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 10 ) {
         context.localizedCancelTitle = cancelMsg;
     }
