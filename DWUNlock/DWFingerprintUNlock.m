@@ -15,28 +15,15 @@ NSString *errMsg;
 + (void)dw_initWithFingerprintUNlockPromptMsg:(NSString *)promptMsg cancelMsg:(NSString *)cancelMsg otherMsg:(NSString *)otherMsg enabled:(BOOL)enabled otherClick:(void(^)(NSString *otherClick))otherClick  success:(void(^)(BOOL success))success error:(void(^)(NSError *error, NSString *errorMsg))error {
     //初始化上下文对象
     LAContext* context = [[LAContext alloc] init];
-    if (!otherMsg) {
-        context.localizedFallbackTitle = @"";
-    }else {
-        context.localizedFallbackTitle = otherMsg;
-    }
-    if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 10 ) {
-        context.localizedCancelTitle = cancelMsg;
-    }
+    context.localizedFallbackTitle = !otherMsg?@"":otherMsg;
+    if ([[[UIDevice currentDevice]systemVersion]integerValue] >= 10)context.localizedCancelTitle = cancelMsg;
+    
     //错误对象
     NSError *erro = nil;
-    NSInteger APolicy;
-    if ([[[UIDevice currentDevice] systemVersion] integerValue] < 9 ) {
-        APolicy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
-    }else {
-        APolicy = LAPolicyDeviceOwnerAuthentication;
-    }
-    NSInteger Policy;
-    if (enabled) {
-        Policy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
-    }else {
-        Policy = LAPolicyDeviceOwnerAuthentication;
-    }
+    NSInteger APolicy = [[[UIDevice currentDevice]systemVersion]integerValue]<9?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
+    
+    NSInteger Policy = enabled?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
+    
     //首先使用canEvaluatePolicy 判断设备支持状态
     if ([context canEvaluatePolicy:APolicy error:&erro]) {
         //支持指纹验证
