@@ -18,10 +18,11 @@ NSString *errMsg;
     context.localizedFallbackTitle = !otherMsg?@"":otherMsg;
     if ([[[UIDevice currentDevice]systemVersion]integerValue] >= 10)context.localizedCancelTitle = cancelMsg;
     //错误对象
+    NSError *er = nil;
     NSInteger APolicy = [[[UIDevice currentDevice]systemVersion]integerValue]<9?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
     NSInteger Policy = enabled?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
     //首先使用canEvaluatePolicy 判断设备支持状态
-    if ([self dw_validationWhetherToSupport]) {
+    if ([context canEvaluatePolicy:APolicy error:&er]) {
         //支持指纹验证
         [context evaluatePolicy:Policy localizedReason:promptMsg reply:^(BOOL succe, NSError *err) {
             if (succe) {
