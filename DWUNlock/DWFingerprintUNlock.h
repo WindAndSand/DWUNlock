@@ -23,6 +23,13 @@
 @interface DWFingerprintUNlock : NSObject
 
 /**
+ 验证是否支持指纹解锁
+ 
+ @return 结果
+ */
++ (BOOL)dw_validationWhetherToSupport;
+
+/**
  指纹解锁
 
  @param promptMsg  提示文本

@@ -17,15 +17,11 @@ NSString *errMsg;
     LAContext* context = [[LAContext alloc] init];
     context.localizedFallbackTitle = !otherMsg?@"":otherMsg;
     if ([[[UIDevice currentDevice]systemVersion]integerValue] >= 10)context.localizedCancelTitle = cancelMsg;
-    
     //错误对象
-    NSError *erro = nil;
     NSInteger APolicy = [[[UIDevice currentDevice]systemVersion]integerValue]<9?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
-    
     NSInteger Policy = enabled?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
-    
     //首先使用canEvaluatePolicy 判断设备支持状态
-    if ([context canEvaluatePolicy:APolicy error:&erro]) {
+    if ([self dw_validationWhetherToSupport]) {
         //支持指纹验证
         [context evaluatePolicy:Policy localizedReason:promptMsg reply:^(BOOL succe, NSError *err) {
             if (succe) {
@@ -88,6 +84,13 @@ NSString *errMsg;
         NSError *err = [NSError errorWithDomain:@"此设备不支持Touch ID" code:-10001 userInfo:nil];
         error(err, [NSString stringWithFormat:@"此设备不支持Touch ID--->设备操作系统:%@---设备系统版本号:%@--->设备型号:%@", [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] systemName], [DWiPhoneType dw_iPhoneType]]);
     }
+}
+
+
++ (BOOL)dw_validationWhetherToSupport {
+    LAContext* context = [[LAContext alloc] init];
+    NSInteger APolicy = [[[UIDevice currentDevice]systemVersion]integerValue]<9? LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthenticationWithBiometrics;
+    return [context canEvaluatePolicy:APolicy error:nil];
 }
 
 @end
