@@ -11,7 +11,7 @@
     - 1.1.0 *简化指纹解锁Block回调结构*
     - 1.1.2 *增加验证设备是否支持指纹解锁*
 - Cocopods
-    - *pod 'DWUNlock', '~> 1.1.0'*
+    - *pod 'DWUNlock', '~> 1.1.2'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
