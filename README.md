@@ -10,8 +10,9 @@
     - 1.0.3 *otherMsg传入nil，则只显示取消按钮，不会出现其他操作按钮*
     - 1.1.0 *简化指纹解锁Block回调结构*
     - 1.1.2 *增加验证设备是否支持指纹解锁*
+    - 1.1.4 *全新改版,更加便捷*
 - Cocopods
-    - *pod 'DWUNlock', '~> 1.1.2'*
+    - *pod 'DWUNlock', '~> 1.1.4'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
@@ -35,28 +36,26 @@
 
 - 开始使用
     - 在需要用到指纹解锁的地方引入头文件
-        - #import "DWFingerprintUNlock.h"
-    - 直接使用类方调用/详细参数说明请到DWFingerprintUNlock.h文件中查看
-    
-            [DWFingerprintUNlock
-            dw_initWithFingerprintUNlockPromptMsg:
-            @"此操作需要认证您的身份"
-            cancelMsg:@"取消"
-            otherMsg:@"其它方式登录" 
-            enabled:YES
-            otherClick:^(NSString *otherClick) {
-                DLog(@"选择了其它方式登录:%@---线程:%@", otherClick, [NSThread currentThread]);
-            } 
-            success:^(BOOL success) {
-                DLog(@"认证成功---success:%d---线程:%@",success, [NSThread currentThread]);
-            } 
-            error:^(NSError *error) {
-                DLog(@"认证失败---error:%@---线程:%@",error, [NSThread currentThread]);
-            } 
-            errorMsg:^(NSString *errorMsg) {
-            DLog(@"错误信息中文:%@---线程:%@", errorMsg, [NSThread currentThread]);   
+        - #import "DWTouchIDUNlock.h"
+    - 直接使用类方调用/详细参数说明请到DWTouchIDUNlock.h文件中查看
+
+
+            [DWTouchIDUNlock dw_touchIDWithMsg:@"这是一个指纹解锁的Demo"
+            cancelTitle:@"点此取消" 
+            otherTitle@"其它方式" 
+            enabled:YES 
+            touchIDAuthenticationSuccessBlock:^(BOOL success) {
+            NSLog(@"验证成功");
+            }operatingrResultBlock:^(DWOperatingTouchIDResult operatingTouchIDResult, NSError *error, NSString *errorMsg) {
+            NSLog(@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg);
             }];
             
+    - 可以在使用指纹解锁前判断当前设备是否支持
+
+            BOOL isSupport = [DWTouchIDUNlock dw_validationTouchIDIsSupportWithBlock:^(BOOL isSupport, 
+            LAContext *context, 
+            NSInteger policy, 
+            NSError *error) {}];
 
     - 在需要用到手势解锁的地方引入头文件
         - #import "DWGesturesLock.h"
