@@ -20,6 +20,8 @@
 
 @property(nonatomic, strong) UISwitch *switchType;
 
+@property(nonatomic, strong) DWGesturesLock *ges;
+
 @end
 
 @implementation ViewController
@@ -29,35 +31,41 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"手势&指纹解锁";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.switchType];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除手势密码" style:UIBarButtonItemStylePlain target:self action:@selector(removeGes)];
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 88) style:UITableViewStylePlain];
     tableView.tableFooterView = [[UIView alloc] init];
     tableView.dataSource = self;
     tableView.delegate = self;
     [self.view addSubview:tableView];
+    UIImageView *bgImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
+    bgImage.image = [UIImage imageNamed:@"bg"];
+    [self.view addSubview:bgImage];
+}
+
+- (void)removeGes {
+    [DWGesturesLock dw_removePassword];
+    NSLog(@"清除了手势密码");
 }
 
 #pragma mark - 指纹解锁
 - (void)fingerprintUNlock {
-    [DWFingerprintUNlock dw_initWithFingerprintUNlockPromptMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelMsg:@"点此取消" otherMsg:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn otherClick:^(NSString *otherClick) {
-        NSLog(@"%@", otherClick);
-    } success:^(BOOL success) {
-        NSLog(@"%d", success);
-    } error:^(NSError *error, NSString *errorMsg) {
-        NSLog(@"%@---%@", error, errorMsg);
+    [DWTouchIDUNlock dw_touchIDWithMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelButtonTitle:@"点此取消" otherButtonTitle:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn successBlock:^(BOOL success) {
+        NSLog(@"验证成功");
+    }operatingrResultBlock:^(DWOperatingTouchIDResult operatingTouchIDResult, NSError *error, NSString *errorMsg) {
+        NSLog(@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg);
     }];
 }
 
 #pragma mark - 手势解锁
 - (void)gesturesLock {
-    DWGesturesLock *ges = [[DWGesturesLock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
-    [ges dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
+    [self.ges dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
         NSLog(@"是否正确:%d---此次输入的密码:%@---用户设置的密码:%@", success, password, userPassword);
         if (success) {
-            [ges removeFromSuperview];
+            [self.ges removeFromSuperview];
         }
     }];
-    NSLog(@"连续输入了%ld次", ges.inputCount);
-    [self.view addSubview:ges];
+    NSLog(@"连续输入了%ld次", self.ges.inputCount);
+    [self.view addSubview:self.ges];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -93,6 +101,13 @@
         _switchType = [[UISwitch alloc] init];
     }
     return _switchType;
+}
+
+- (DWGesturesLock *)ges {
+    if (!_ges) {
+        _ges = [[DWGesturesLock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
+    }
+    return _ges;
 }
 
 @end

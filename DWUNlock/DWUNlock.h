@@ -10,7 +10,7 @@
 #define DWUNlock_h
 
 /** 指纹解锁 */
-#import "DWFingerprintUNlock.h"
+#import "DWTouchIDUNlock.h"
 
 /** 手势解锁 */
 #import "DWGesturesLock.h"

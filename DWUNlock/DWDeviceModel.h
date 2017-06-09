@@ -7,12 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-/** 获取设备型号 */
-#import <sys/utsname.h>
 
-@interface DWiPhoneType : NSObject
+@interface DWDeviceModel : NSObject
 
 /** 获取设备型号 */
-+ (NSString *)dw_iPhoneType;
++ (NSString *)dwToolsDeviceModelName;
 
 @end

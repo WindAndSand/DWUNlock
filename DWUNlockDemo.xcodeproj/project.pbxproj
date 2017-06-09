@@ -10,9 +10,9 @@
 		359E4EB41DED7666006471FD /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB31DED7666006471FD /* LocalAuthentication.framework */; };
 		359E4EB61DED766A006471FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB51DED766A006471FD /* UIKit.framework */; };
 		359E4EB81DED766F006471FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 359E4EB71DED766F006471FD /* Foundation.framework */; };
-		359E4EC21DED8259006471FD /* DWFingerprintUNlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBB1DED8259006471FD /* DWFingerprintUNlock.m */; };
+		359E4EC21DED8259006471FD /* DWTouchIDUNlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBB1DED8259006471FD /* DWTouchIDUNlock.m */; };
 		359E4EC31DED8259006471FD /* DWGesturesLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBD1DED8259006471FD /* DWGesturesLock.m */; };
-		359E4EC41DED8259006471FD /* DWiPhoneType.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBF1DED8259006471FD /* DWiPhoneType.m */; };
+		359E4EC41DED8259006471FD /* DWDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBF1DED8259006471FD /* DWDeviceModel.m */; };
 		359E4EC51DED8259006471FD /* Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 359E4EC11DED8259006471FD /* Resources.bundle */; };
 		8F155E2B1DCA355B007ED527 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2A1DCA355B007ED527 /* main.m */; };
 		8F155E2E1DCA355B007ED527 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2D1DCA355B007ED527 /* AppDelegate.m */; };
@@ -27,12 +27,12 @@
 		359E4EB31DED7666006471FD /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		359E4EB51DED766A006471FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		359E4EB71DED766F006471FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		359E4EBA1DED8259006471FD /* DWFingerprintUNlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWFingerprintUNlock.h; sourceTree = "<group>"; };
-		359E4EBB1DED8259006471FD /* DWFingerprintUNlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWFingerprintUNlock.m; sourceTree = "<group>"; };
+		359E4EBA1DED8259006471FD /* DWTouchIDUNlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTouchIDUNlock.h; sourceTree = "<group>"; };
+		359E4EBB1DED8259006471FD /* DWTouchIDUNlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTouchIDUNlock.m; sourceTree = "<group>"; };
 		359E4EBC1DED8259006471FD /* DWGesturesLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWGesturesLock.h; sourceTree = "<group>"; };
 		359E4EBD1DED8259006471FD /* DWGesturesLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWGesturesLock.m; sourceTree = "<group>"; };
-		359E4EBE1DED8259006471FD /* DWiPhoneType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWiPhoneType.h; sourceTree = "<group>"; };
-		359E4EBF1DED8259006471FD /* DWiPhoneType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWiPhoneType.m; sourceTree = "<group>"; };
+		359E4EBE1DED8259006471FD /* DWDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDeviceModel.h; sourceTree = "<group>"; };
+		359E4EBF1DED8259006471FD /* DWDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWDeviceModel.m; sourceTree = "<group>"; };
 		359E4EC01DED8259006471FD /* DWUNlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUNlock.h; sourceTree = "<group>"; };
 		359E4EC11DED8259006471FD /* Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resources.bundle; sourceTree = "<group>"; };
 		8F155E261DCA355B007ED527 /* DWUNlockDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DWUNlockDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,12 +77,12 @@
 		359E4EB91DED8259006471FD /* DWUNlock */ = {
 			isa = PBXGroup;
 			children = (
-				359E4EBA1DED8259006471FD /* DWFingerprintUNlock.h */,
-				359E4EBB1DED8259006471FD /* DWFingerprintUNlock.m */,
+				359E4EBA1DED8259006471FD /* DWTouchIDUNlock.h */,
+				359E4EBB1DED8259006471FD /* DWTouchIDUNlock.m */,
 				359E4EBC1DED8259006471FD /* DWGesturesLock.h */,
 				359E4EBD1DED8259006471FD /* DWGesturesLock.m */,
-				359E4EBE1DED8259006471FD /* DWiPhoneType.h */,
-				359E4EBF1DED8259006471FD /* DWiPhoneType.m */,
+				359E4EBE1DED8259006471FD /* DWDeviceModel.h */,
+				359E4EBF1DED8259006471FD /* DWDeviceModel.m */,
 				359E4EC01DED8259006471FD /* DWUNlock.h */,
 				359E4EC11DED8259006471FD /* Resources.bundle */,
 			);
@@ -207,9 +207,9 @@
 				359E4EC31DED8259006471FD /* DWGesturesLock.m in Sources */,
 				8F155E311DCA355B007ED527 /* ViewController.m in Sources */,
 				8F155E2E1DCA355B007ED527 /* AppDelegate.m in Sources */,
-				359E4EC41DED8259006471FD /* DWiPhoneType.m in Sources */,
+				359E4EC41DED8259006471FD /* DWDeviceModel.m in Sources */,
 				8F155E2B1DCA355B007ED527 /* main.m in Sources */,
-				359E4EC21DED8259006471FD /* DWFingerprintUNlock.m in Sources */,
+				359E4EC21DED8259006471FD /* DWTouchIDUNlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +321,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = A29G325F62;
 				INFOPLIST_FILE = DWUNlockDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -334,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = A29G325F62;
 				INFOPLIST_FILE = DWUNlockDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
