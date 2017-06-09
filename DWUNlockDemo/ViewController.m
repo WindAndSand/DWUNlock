@@ -49,7 +49,7 @@
 
 #pragma mark - 指纹解锁
 - (void)fingerprintUNlock {
-    [DWTouchIDUNlock dw_touchIDWithMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelButtonTitle:@"点此取消" otherButtonTitle:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn successBlock:^(BOOL success) {
+    [DWTouchIDUNlock dw_touchIDWithMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelTitle:@"点此取消" otherTitle:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn touchIDAuthenticationSuccessBlock:^(BOOL success) {
         NSLog(@"验证成功");
     }operatingrResultBlock:^(DWOperatingTouchIDResult operatingTouchIDResult, NSError *error, NSString *errorMsg) {
         NSLog(@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg);

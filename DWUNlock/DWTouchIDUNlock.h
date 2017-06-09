@@ -21,9 +21,6 @@ typedef NS_ENUM(NSUInteger, DWOperatingTouchIDResult) {
     /** 当前设备不支持TouchID */
     DWTouchIDResultTypeNotSupport = 0,
     
-    /** TouchID 验证成功 */
-    DWTouchIDResultTypeSuccess,
-    
     /** TouchID 验证失败 */
     DWTouchIDResultTypeFailed,
     
@@ -76,17 +73,17 @@ typedef NS_ENUM(NSUInteger, DWOperatingTouchIDResult) {
  指纹解锁
 
  @param msg 提示文本
- @param cancelButtonTitle 取消按钮显示内容(此参数只有iOS10以上才能生效),默认显示：取消
- @param otherButtonTitle 密码登录按钮显示内容(默认*密码登录*),如果传入空字符串@""/nil,则只会显示独立的取消按钮
+ @param cancelTitle 取消按钮显示内容(此参数只有iOS10以上才能生效),默认显示：取消
+ @param otherTitle 密码登录按钮显示内容(默认*密码登录*),如果传入空字符串@""/nil,则只会显示独立的取消按钮
  @param enabled 默认为NO点击密码使用系统解锁/YES时，自己操作点击密码登录
- @param successBlock  验证成功
+ @param touchIDAuthenticationSuccessBlock  验证成功
  @param operatingrResultBlock 返回状态码和错误
  */
 + (void)dw_touchIDWithMsg:(NSString *)msg
-        cancelButtonTitle:(NSString *)cancelButtonTitle
-        otherButtonTitle:(NSString *)otherButtonTitle
+        cancelTitle:(NSString *)cancelTitle
+        otherTitle:(NSString *)otherTitle
         enabled:(BOOL)enabled
-        successBlock:(void(^)(BOOL success))successBlock
+        touchIDAuthenticationSuccessBlock:(void(^)(BOOL success))touchIDAuthenticationSuccessBlock
         operatingrResultBlock:(void(^)(DWOperatingTouchIDResult operatingTouchIDResult,
                                    NSError *error,
                                    NSString *errorMsg))operatingrResultBlock;
