@@ -6,9 +6,9 @@
 //  Copyright © 2016年 dwang. All rights reserved.
 //
 
-#import "DWGesturesLock.h"
+#import "DWGesturesUNlock.h"
 
-@interface DWGesturesLock ()
+@interface DWGesturesUNlock ()
 
 /** 所有按钮 */
 @property (strong, nonatomic) NSMutableArray *points;
@@ -26,7 +26,7 @@
 
 #define DWPassword [[NSUserDefaults standardUserDefaults] objectForKey:@"DWGesturesLock"]
 
-@implementation DWGesturesLock
+@implementation DWGesturesUNlock
 
 #pragma mark ---点击这个view的时候调用
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
@@ -99,6 +99,7 @@
     NSUInteger passwordLength = self.passwordLength>0?passwordLength = self.passwordLength:3;
     if (!DWPassword && password.length >= passwordLength) {
         [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"DWGesturesLock"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if (self.password) {
         BOOL isbool;
@@ -259,6 +260,7 @@
 #pragma mark ---删除手势密码
 + (void)dw_removePassword {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DWGesturesLock"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

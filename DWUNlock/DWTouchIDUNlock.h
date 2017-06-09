@@ -14,7 +14,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-/** 指纹解锁 */
 #import <LocalAuthentication/LocalAuthentication.h>
 
 typedef NS_ENUM(NSUInteger, DWOperatingTouchIDResult) {

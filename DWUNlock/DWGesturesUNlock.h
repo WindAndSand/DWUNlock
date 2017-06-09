@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DWGesturesLock : UIView
+@interface DWGesturesUNlock : UIView
 /**************************Block************************/
 
 /**

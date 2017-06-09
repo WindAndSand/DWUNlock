@@ -28,7 +28,7 @@
                                    NSError *error,
                                    NSString *errorMsg))operatingrResultBlock {
     
-    [self dw_validationTouchIDIsSupportWithBlock:^(BOOL isSupport, LAContext *context, NSInteger policy, NSError *error) {
+    [DWTouchIDUNlock dw_validationTouchIDIsSupportWithBlock:^(BOOL isSupport, LAContext *context, NSInteger policy, NSError *error) {
         context.localizedFallbackTitle = !otherTitle?@"":otherTitle;
         if(IOS_VERSION>=10) context.localizedCancelTitle = cancelTitle;
         NSInteger policy2 = enabled?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
@@ -94,7 +94,7 @@
     context.maxBiometryFailures = @(3);//最大的错误次数,9.0后失效
     NSInteger policy = IOS_VERSION<9.0&&IOS_VERSION>=8.0?LAPolicyDeviceOwnerAuthenticationWithBiometrics:LAPolicyDeviceOwnerAuthentication;
     NSError *error = nil;
-    BOOL isSupport = [context canEvaluatePolicy:policy error:&error];
+    BOOL isSupport = [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];//实测中发现如果使用LAPolicyDeviceOwnerAuthentication,则每次返回的结果都是true,使用LAPolicyDeviceOwnerAuthenticationWithBiometrics则可以返回真实的结果
     block(isSupport, context, policy, error);
     return isSupport;
 }

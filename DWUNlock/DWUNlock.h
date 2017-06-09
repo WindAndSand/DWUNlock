@@ -13,6 +13,6 @@
 #import "DWTouchIDUNlock.h"
 
 /** 手势解锁 */
-#import "DWGesturesLock.h"
+#import "DWGesturesUNlock.h"
 
 #endif /* DWUNlock_h */

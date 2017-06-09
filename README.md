@@ -10,9 +10,9 @@
     - 1.0.3 *otherMsg传入nil，则只显示取消按钮，不会出现其他操作按钮*
     - 1.1.0 *简化指纹解锁Block回调结构*
     - 1.1.2 *增加验证设备是否支持指纹解锁*
-    - 1.1.4 *全新改版,更加便捷*
+    - 1.1.5 *全新改版,更加便捷*
 - Cocopods
-    - *pod 'DWUNlock', '~> 1.1.4'*
+    - *pod 'DWUNlock', '~> 1.1.5'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
@@ -58,12 +58,12 @@
             NSError *error) {}];
 
     - 在需要用到手势解锁的地方引入头文件
-        - #import "DWGesturesLock.h"
+        - #import "DWGesturesUNlock.h"
     
     - 此处需使用对象方法/详细参数说明请到DWGesturesLock.h文件中查看
     
             //初始化
-            DWGesturesLock *gestures = [[DWGesturesLock alloc] init];
+            DWGesturesUNlock *gestures = [[DWGesturesUNlock alloc] init];
             //添加到当前视图
             [self.view addSubview:gestures];
             //完成手势绘制调用

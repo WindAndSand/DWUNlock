@@ -20,7 +20,7 @@
 
 @property(nonatomic, strong) UISwitch *switchType;
 
-@property(nonatomic, strong) DWGesturesLock *ges;
+@property(nonatomic, strong) DWGesturesUNlock *ges;
 
 @end
 
@@ -43,25 +43,53 @@
 }
 
 - (void)removeGes {
-    [DWGesturesLock dw_removePassword];
+    [DWGesturesUNlock dw_removePassword];
     NSLog(@"清除了手势密码");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:@"清除手势密码成功" preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:nil];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }]];
 }
 
 #pragma mark - 指纹解锁
 - (void)fingerprintUNlock {
+     __weak __typeof(self)weakSelf = self;
     [DWTouchIDUNlock dw_touchIDWithMsg:self.switchType.isOn?@"这是一个指纹解锁的Demo，同时错误只显示取消按钮":@"这是一个指纹解锁的Demo，错误可以选择其它操作方式" cancelTitle:@"点此取消" otherTitle:self.switchType.isOn?nil:@"其它方式" enabled:!self.switchType.isOn touchIDAuthenticationSuccessBlock:^(BOOL success) {
         NSLog(@"验证成功");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"指纹解锁Demo" message:@"验证成功" preferredStyle:UIAlertControllerStyleAlert];
+        [weakSelf presentViewController:alert animated:YES completion:nil];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
     }operatingrResultBlock:^(DWOperatingTouchIDResult operatingTouchIDResult, NSError *error, NSString *errorMsg) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"指纹解锁Demo" message:[NSString stringWithFormat:@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg] preferredStyle:UIAlertControllerStyleAlert];
+        [weakSelf presentViewController:alert animated:YES completion:nil];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }]];
         NSLog(@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg);
     }];
 }
 
 #pragma mark - 手势解锁
 - (void)gesturesLock {
+     __weak __typeof(self)weakSelf = self;
     [self.ges dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
         NSLog(@"是否正确:%d---此次输入的密码:%@---用户设置的密码:%@", success, password, userPassword);
         if (success) {
-            [self.ges removeFromSuperview];
+            [weakSelf.ges removeFromSuperview];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:@"验证成功" preferredStyle:UIAlertControllerStyleAlert];
+            [weakSelf presentViewController:alert animated:YES completion:nil];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
+        }else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:[NSString stringWithFormat:@"此次输入的密码:%@\n用户设置的密码:%@\n连续输入的次数:%ld", password, userPassword,weakSelf.ges.inputCount] preferredStyle:UIAlertControllerStyleAlert];
+            [weakSelf presentViewController:alert animated:YES completion:nil];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]];
         }
     }];
     NSLog(@"连续输入了%ld次", self.ges.inputCount);
@@ -69,7 +97,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return [DWTouchIDUNlock dw_validationTouchIDIsSupportWithBlock:^(BOOL isSupport, LAContext *context, NSInteger policy, NSError *error) {
+        NSLog(@"%d", isSupport);
+    }]?2:1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,14 +112,14 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = indexPath.row==1?@"手势解锁":@"指纹解锁";
+        cell.textLabel.text = indexPath.row==0?@"手势解锁":@"指纹解锁";
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 0) {
+    if (indexPath.row == 1) {
         [self fingerprintUNlock];
     }else {
         [self gesturesLock];
@@ -103,9 +133,9 @@
     return _switchType;
 }
 
-- (DWGesturesLock *)ges {
+- (DWGesturesUNlock *)ges {
     if (!_ges) {
-        _ges = [[DWGesturesLock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
+        _ges = [[DWGesturesUNlock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
     }
     return _ges;
 }
