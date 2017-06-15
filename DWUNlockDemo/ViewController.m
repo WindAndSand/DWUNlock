@@ -14,13 +14,12 @@
 
 
 #import "ViewController.h"
-#import "DWUNlock.h"
+#import "GesturesPasswordController.h"
+#import "DWTouchIDUNlock.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, strong) UISwitch *switchType;
-
-@property(nonatomic, strong) DWGesturesUNlock *ges;
 
 @end
 
@@ -31,8 +30,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"手势&指纹解锁";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.switchType];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除手势密码" style:UIBarButtonItemStylePlain target:self action:@selector(removeGes)];
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 88) style:UITableViewStylePlain];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) style:UITableViewStylePlain];
     tableView.tableFooterView = [[UIView alloc] init];
     tableView.dataSource = self;
     tableView.delegate = self;
@@ -40,16 +38,6 @@
     UIImageView *bgImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
     bgImage.image = [UIImage imageNamed:@"bg"];
     [self.view addSubview:bgImage];
-}
-
-- (void)removeGes {
-    [DWGesturesUNlock dw_removePassword];
-    NSLog(@"清除了手势密码");
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:@"清除手势密码成功" preferredStyle:UIAlertControllerStyleAlert];
-    [self presentViewController:alert animated:YES completion:nil];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
 }
 
 #pragma mark - 指纹解锁
@@ -70,30 +58,6 @@
         }]];
         NSLog(@"错误码:%ld---系统Log:%@---中文Log:%@", operatingTouchIDResult, error, errorMsg);
     }];
-}
-
-#pragma mark - 手势解锁
-- (void)gesturesLock {
-     __weak __typeof(self)weakSelf = self;
-    [self.ges dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
-        NSLog(@"是否正确:%d---此次输入的密码:%@---用户设置的密码:%@", success, password, userPassword);
-        if (success) {
-            [weakSelf.ges removeFromSuperview];
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:@"验证成功" preferredStyle:UIAlertControllerStyleAlert];
-            [weakSelf presentViewController:alert animated:YES completion:nil];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-            }]];
-        }else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手势解锁Demo" message:[NSString stringWithFormat:@"此次输入的密码:%@\n用户设置的密码:%@\n连续输入的次数:%ld", password, userPassword,weakSelf.ges.inputCount] preferredStyle:UIAlertControllerStyleAlert];
-            [weakSelf presentViewController:alert animated:YES completion:nil];
-            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-            }]];
-        }
-    }];
-    NSLog(@"连续输入了%ld次", self.ges.inputCount);
-    [self.view addSubview:self.ges];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -122,7 +86,7 @@
     if (indexPath.row == 1) {
         [self fingerprintUNlock];
     }else {
-        [self gesturesLock];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[GesturesPasswordController alloc] init]] animated:YES completion:nil];
     }
 }
 
@@ -131,13 +95,6 @@
         _switchType = [[UISwitch alloc] init];
     }
     return _switchType;
-}
-
-- (DWGesturesUNlock *)ges {
-    if (!_ges) {
-        _ges = [[DWGesturesUNlock alloc] initWithFrame:CGRectMake(0, 88+64, self.view.bounds.size.width, self.view.bounds.size.height-88-64)];
-    }
-    return _ges;
 }
 
 @end

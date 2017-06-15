@@ -12,8 +12,9 @@
     - 1.1.0 *简化指纹解锁Block回调结构*
     - 1.1.2 *增加验证设备是否支持指纹解锁*
     - 1.1.5 *全新改版,更加便捷*
+    - 1.1.6	 *更新手势解锁,修改调用方式*
 - Cocopods
-    - *pod 'DWUNlock', '~> 1.1.5'*
+    - *pod 'DWUNlock', '~> 1.1.6'*
     - 无法search或search到不是最新的库:[解决方案](http://www.jianshu.com/p/1fc730b0edc7)
     
 
@@ -61,20 +62,9 @@
     
     - 此处需使用对象方法/详细参数说明请到DWGesturesLock.h文件中查看
     
-            //初始化
-            DWGesturesUNlock *gestures = [[DWGesturesUNlock alloc] init];
-            //添加到当前视图
-            [self.view addSubview:gestures];
-            //完成手势绘制调用
-            [gestures dw_passwordSuccess:^(BOOL success, NSString *password, NSString *userPassword) {
-                if(!userPassword && password.length >= 3) {
-                    DLog(@"密码设置成功")
-                }
-                if(success) {
-                DLog(@"验证成功")
-                }else {
-                    DLog(@"验证失败")
-                }
-                }];
-
+            DWGesturesUNlock *gesturesView = [DWGesturesUNlock dw_gesturesViewWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) successBlock:^{
+        	NSLog(@"验证或设置密码成功");
+    		} errorBlock:^(NSString *choosePassword, NSString *userSetPassword, int errorCount) {
+        	NSLog(@"用户选中的密码:%@\n用户设置的密码或错误信息:%@\n连续错误次数:%d", choosePassword, userSetPassword, errorCount);
+    		}];
 

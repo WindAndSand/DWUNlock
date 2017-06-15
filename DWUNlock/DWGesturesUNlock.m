@@ -19,16 +19,62 @@
 /** point点 */
 @property (assign, nonatomic) CGPoint currentPoint;
 
+/** 连续输入密码的次数 */
+@property(assign, nonatomic) int           inputCount;
+
 @end
 
 /** 九宫格排列方式 */
 #define DWPointCount 9
 
-#define DWPassword [[NSUserDefaults standardUserDefaults] objectForKey:@"DWGesturesLock"]
+#define DWGesturesPassword [[NSUserDefaults standardUserDefaults] objectForKey:@"DWGesturesUNlock"]
 
 @implementation DWGesturesUNlock
 
-#pragma mark ---点击这个view的时候调用
++ (instancetype)dw_gesturesViewWithFrame:(CGRect)frame successBlock:(gesturesSuccess)successBlock errorBlock:(gesturesError)errorBlock {
+    DWGesturesUNlock *gesturesUNlock = [[self alloc] initWithFrame:frame];
+    gesturesUNlock.successBlock = ^{
+        successBlock();
+    };
+    gesturesUNlock.errorBlock = ^(NSString *choosePassword, NSString *userSetPassword, int errorCount) {
+        errorBlock(choosePassword, userSetPassword, errorCount);
+    };
+    return gesturesUNlock;
+}
+
+#pragma mark - 开始画线
+- (void)drawRect:(CGRect)rect {
+        // 路径
+        UIBezierPath* path = [UIBezierPath bezierPath];
+        for (int i = 0; i < self.lines.count; i++) {
+            if (i == 0) {
+                UIButton *fistObject = self.lines[i];
+                // 如果是第0个那么 应该设置为起点
+                [path moveToPoint:[fistObject center]];
+            }else {
+                UIButton *lineObject = self.lines[i];
+                // 如果不是第0个 那么直接连线
+                [path addLineToPoint:[lineObject center]];
+            }
+        }
+        // 判断需要画线的数组是否有值 如果没有 再去连线到手指的位置
+        if (self.lines.count) {
+            // 往手指的位置进行连线
+            [path addLineToPoint:self.currentPoint];
+        }
+        // 设置颜色
+        [self.lineColor?self.lineColor:[UIColor whiteColor] set];
+        // 线宽
+        path.lineWidth = self.lineWidth>0?self.lineWidth:10;
+        // 连接处
+        [path setLineJoinStyle:kCGLineJoinRound];
+        // 头尾处
+        [path setLineCapStyle:kCGLineCapRound];
+        // 渲染
+        [path stroke];
+}
+
+#pragma mark - 点击这个view的时候调用
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     //获取触摸对象
     UITouch* t = touches.anyObject;
@@ -50,7 +96,7 @@
     }
 }
 
-#pragma mark ---在view上移动时调用
+#pragma mark - 在view上移动时调用
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
     //获取触摸对象
     UITouch* t = touches.anyObject;
@@ -77,7 +123,7 @@
     [self setNeedsDisplay];
 }
 
-#pragma mark ---view停止滑动
+#pragma mark - view停止滑动
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     //连续输入密码的次数
     self.inputCount = self.inputCount + 1;
@@ -96,30 +142,41 @@
     }
     self.passwordImage = [self snipGesturesPasswordsView:self];
     //密码最小长度
-    NSUInteger passwordLength = self.passwordLength>0?passwordLength = self.passwordLength:3;
-    if (!DWPassword && password.length >= passwordLength) {
-        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"DWGesturesLock"];
+    NSUInteger minlength = self.minlength>0?self.minlength:3;
+    if (!DWGesturesPassword && password.length >= minlength) {
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"DWGesturesUNlock"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    if (self.password) {
-        BOOL isbool;
-        if ([password isEqualToString:DWPassword]) {
-            isbool = YES;
-        }else {
-            isbool = NO;
+        self.inputCount = 0;
+        if (self.successBlock) {
+            self.successBlock();
         }
-        self.password(isbool, password, DWPassword);
+    }else if (DWGesturesPassword && password.length >= minlength) {
+        if ([password isEqualToString:DWGesturesPassword]) {
+            self.inputCount = 0;
+            if (self.successBlock) {
+                self.successBlock();
+            }
+        }else {
+            if (self.errorBlock) {
+                self.errorBlock(password, DWGesturesPassword, self.inputCount);
+            }
+        }
+    }else {
+        if (self.errorBlock) {
+            self.errorBlock(password, @"未达到最低长度限制", self.inputCount);
+        }
     }
+    
     //遍历 连线的数组
     for (int i = 0; i < self.lines.count; i++) {
         //获取button
         UIButton* btn = self.lines[i];
-        if ([DWPassword isEqualToString:password]) {
+        if ([DWGesturesPassword isEqualToString:password]) {
             //设置正确状态的图片
-            [btn setBackgroundImage:self.gesturesSuccess?self.gesturesSuccess:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_success"]] forState:UIControlStateSelected];
+            [btn setBackgroundImage:self.gesturesSuccessImage?self.gesturesSuccessImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_success"]] forState:UIControlStateSelected];
         }else {
             //设置错误状态的图片
-            [btn setBackgroundImage:self.gesturesError?self.gesturesError:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_error"]] forState:UIControlStateSelected];
+            [btn setBackgroundImage:self.gesturesErrorImage?self.gesturesErrorImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/gesture_node_error"]] forState:UIControlStateSelected];
         }
         //设置选中状态
         btn.selected = YES;
@@ -134,7 +191,7 @@
     });
 }
 
-#pragma mark ---清空画线数组
+#pragma mark - 清空画线数组
 - (void)clear {
     for (int i = 0; i < self.points.count; i++) {
         // 获取button
@@ -148,62 +205,29 @@
     [self setNeedsDisplay];
 }
 
-#pragma mark ---开始画线
-- (void)drawRect:(CGRect)rect {
-    // 路径
-    UIBezierPath* path = [UIBezierPath bezierPath];
-    for (int i = 0; i < self.lines.count; i++) {
-        if (i == 0) {
-            UIButton *fistObject = self.lines[i];
-            // 如果是第0个那么 应该设置为起点
-            [path moveToPoint:[fistObject center]];
-        }else {
-            UIButton *lineObject = self.lines[i];
-            // 如果不是第0个 那么直接连线
-            [path addLineToPoint:[lineObject center]];
-        }
-    }
-    // 判断需要画线的数组是否有值 如果没有 再去连线到手指的位置
-    if (self.lines.count) {
-        // 往手指的位置进行连线
-        [path addLineToPoint:self.currentPoint];
-    }
-    // 设置颜色
-    
-    if (self.lineColor) {
-     [self.lineColor set];
-    }else {
-        [[UIColor whiteColor] set];
-    }
-    // 线宽
-    path.lineWidth = self.lineWidth>0?self.lineWidth:10;
-    // 连接处
-    [path setLineJoinStyle:kCGLineJoinRound];
-    // 头尾处
-    [path setLineCapStyle:kCGLineCapRound];
-    // 渲染
-    [path stroke];
-}
-
-
-#pragma mark ---计算九宫格
+#pragma mark - 计算九宫格
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     self.backgroundColor = [UIColor colorWithPatternImage:self.bgImage?self.bgImage:[UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Resources.bundle/bg"]]];
     // 计算九宫格位置
-    CGFloat width = self.sizeW_H>0?self.sizeW_H:74;
+    CGFloat width = self.pointSize>0?self.pointSize:74;
     CGFloat height = width;
     int colCount = 3;
     CGFloat margin = (self.frame.size.width - 3 * width) / 4;
     for (int i = 0; i < self.points.count; i++) {
         CGFloat x = (i % colCount) * (margin + width) + margin;
-        CGFloat y = (i / colCount) * (margin + width) + margin;
-        [self.points[i] setFrame:CGRectMake(x, y, width, height)];
+        CGFloat y;
+        if([[NSUserDefaults standardUserDefaults] floatForKey:@"GesturesTopMargin"]) {
+            y = (i / colCount) * (margin + width) + margin + [[NSUserDefaults standardUserDefaults] floatForKey:@"GesturesTopMargin"];
+        }else {
+            y = (i / colCount) * (margin + width) + margin;
+        }
+            [self.points[i] setFrame:CGRectMake(x, y, width, height)];
     }
 }
 
-#pragma mark ---画线数组懒加载
+#pragma mark - 画线数组懒加载
 - (NSMutableArray *)lines {
     if (!_lines) {
         _lines = [NSMutableArray array];
@@ -211,7 +235,7 @@
     return _lines;
 }
 
-#pragma mark ---按钮数组懒加载
+#pragma mark - 按钮数组懒加载
 - (NSMutableArray *)points {
     if (!_points) {
         _points = [NSMutableArray array];
@@ -233,7 +257,7 @@
     return _points;
 }
 
-#pragma mark ---截取画线视图
+#pragma mark - 截取画线视图
 - (UIImage *)snipGesturesPasswordsView:(UIView *)view {
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]){
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [UIScreen mainScreen].scale);
@@ -249,18 +273,28 @@
     return image;
 }
 
-
-#pragma mark ---当前选中与设置密码
-- (void)dw_passwordSuccess:(Password)password {
-    self.password = ^(BOOL success, NSString *pass, NSString *userPass) {
-        password(success, pass, userPass);
-    };
+#pragma mark - 删除手势密码
++ (void)dw_removeGesturesPassword {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DWGesturesUNlock"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self dw_removeGesturesTopMargin];
 }
 
-#pragma mark ---删除手势密码
-+ (void)dw_removePassword {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DWGesturesLock"];
+#pragma mark - 设置首行密码按钮距上位置
++ (void)dw_setGesturesTopMargin:(CGFloat)topMargin {
+    [[NSUserDefaults standardUserDefaults] setFloat:topMargin forKey:@"GesturesTopMargin"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - 删除首行密码按钮距上位置
++ (void)dw_removeGesturesTopMargin {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"GesturesTopMargin"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - 获取当前是否设置过手势密码
++ (BOOL)dw_validationGesturesUNlock {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"DWGesturesUNlock"];
 }
 
 @end

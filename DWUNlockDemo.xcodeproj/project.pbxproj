@@ -13,6 +13,7 @@
 		359E4EC21DED8259006471FD /* DWTouchIDUNlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBB1DED8259006471FD /* DWTouchIDUNlock.m */; };
 		359E4EC31DED8259006471FD /* DWGesturesUNlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E4EBD1DED8259006471FD /* DWGesturesUNlock.m */; };
 		359E4EC51DED8259006471FD /* Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 359E4EC11DED8259006471FD /* Resources.bundle */; };
+		35EBC0DB1EF2833400FA0F01 /* GesturesPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EBC0DA1EF2833400FA0F01 /* GesturesPasswordController.m */; };
 		8F155E2B1DCA355B007ED527 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2A1DCA355B007ED527 /* main.m */; };
 		8F155E2E1DCA355B007ED527 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E2D1DCA355B007ED527 /* AppDelegate.m */; };
 		8F155E311DCA355B007ED527 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F155E301DCA355B007ED527 /* ViewController.m */; };
@@ -32,6 +33,8 @@
 		359E4EBD1DED8259006471FD /* DWGesturesUNlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWGesturesUNlock.m; sourceTree = "<group>"; };
 		359E4EC01DED8259006471FD /* DWUNlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUNlock.h; sourceTree = "<group>"; };
 		359E4EC11DED8259006471FD /* Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resources.bundle; sourceTree = "<group>"; };
+		35EBC0D91EF2833400FA0F01 /* GesturesPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturesPasswordController.h; sourceTree = "<group>"; };
+		35EBC0DA1EF2833400FA0F01 /* GesturesPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturesPasswordController.m; sourceTree = "<group>"; };
 		8F155E261DCA355B007ED527 /* DWUNlockDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DWUNlockDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F155E2A1DCA355B007ED527 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F155E2C1DCA355B007ED527 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -109,6 +112,8 @@
 				8F155E2D1DCA355B007ED527 /* AppDelegate.m */,
 				8F155E2F1DCA355B007ED527 /* ViewController.h */,
 				8F155E301DCA355B007ED527 /* ViewController.m */,
+				35EBC0D91EF2833400FA0F01 /* GesturesPasswordController.h */,
+				35EBC0DA1EF2833400FA0F01 /* GesturesPasswordController.m */,
 				8F155E321DCA355B007ED527 /* Main.storyboard */,
 				8F155E401DCA3580007ED527 /* Launch Screen.storyboard */,
 				8F155E351DCA355B007ED527 /* Assets.xcassets */,
@@ -201,6 +206,7 @@
 			files = (
 				359E4EC31DED8259006471FD /* DWGesturesUNlock.m in Sources */,
 				8F155E311DCA355B007ED527 /* ViewController.m in Sources */,
+				35EBC0DB1EF2833400FA0F01 /* GesturesPasswordController.m in Sources */,
 				8F155E2E1DCA355B007ED527 /* AppDelegate.m in Sources */,
 				8F155E2B1DCA355B007ED527 /* main.m in Sources */,
 				359E4EC21DED8259006471FD /* DWTouchIDUNlock.m in Sources */,
