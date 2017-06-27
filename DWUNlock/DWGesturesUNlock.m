@@ -22,6 +22,9 @@
 /** 连续输入密码的次数 */
 @property(assign, nonatomic) int           inputCount;
 
+/** path数组 */
+@property(nonatomic, strong) NSMutableArray *pointArrM;
+
 @end
 
 /** 九宫格排列方式 */
@@ -72,6 +75,7 @@
         [path setLineCapStyle:kCGLineCapRound];
         // 渲染
         [path stroke];
+    [self.pointArrM addObject:path];
 }
 
 #pragma mark - 点击这个view的时候调用
@@ -166,7 +170,10 @@
             self.errorBlock(password, @"未达到最低长度限制", self.inputCount);
         }
     }
-    
+    for (UIBezierPath *path in self.pointArrM) {
+        [[UIColor redColor] set];
+        [path stroke];
+    }
     //遍历 连线的数组
     for (int i = 0; i < self.lines.count; i++) {
         //获取button
@@ -255,6 +262,13 @@
         }
     }
     return _points;
+}
+
+- (NSMutableArray *)pointArrM {
+    if (!_pointArrM) {
+        _pointArrM = [NSMutableArray array];
+    }
+    return _pointArrM;
 }
 
 #pragma mark - 截取画线视图
