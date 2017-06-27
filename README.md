@@ -7,6 +7,10 @@
 ---
 ![logo](https://github.com/dwanghello/DWUNlock/blob/master/logo.png)
 
+---
+![预览](https://github.com/dwanghello/DWUNlock/blob/master/预览.gif)
+
+---
 - version
     - 1.0.3 *otherMsg传入nil，则只显示取消按钮，不会出现其他操作按钮*
     - 1.1.0 *简化指纹解锁Block回调结构*
